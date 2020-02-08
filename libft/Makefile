@@ -24,8 +24,8 @@ CFLAGS		= -Wall -Wextra -Werror
 
 all:			$(NAME)
 
-$(NAME):		$(OBJS)
-	ar rc $(NAME) $(OBJS)
+$(NAME):		$(OBJS) $(OBJS_BONUS)
+	ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
 
 $(OBJ_DIR)/%.o:	$(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
