@@ -1,4 +1,4 @@
-SRCS		= display.c parsing.c wouf.c
+SRCS		= display.c parsing.c wouf.c utils.c
 
 SRCS_BONUS	=
 
@@ -14,7 +14,7 @@ DEP			+= $(patsubst %.o,%.d,$(OBJS_BONUS))
 
 NAME		= cub3d
 CC			= gcc
-CFLAGS		= -Wall -Wextra -g3 -fsanitize=address
+CFLAGS		= -Wall -Wextra -g3 -Ofast
 LDFLAGS		= -framework OpenGL -framework AppKit
 INCLUDES	:= -I . $(patsubst %,-I %,$(LIBS))
 

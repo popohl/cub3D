@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/01 17:16:35 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/08 14:03:17 by pohl             ###   ########.fr       */
+/*   Updated: 2020/02/17 05:35:48 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "libft/libft.h"
 #include "cub3d.h"
 
-t_object	*ray(double pos_x, double pos_y, double angle, int **input_map);
+void	ray(t_2double pos, double angle, int **input_map, t_obj_list *list);
 
 // Calculer l'écart d'angle entre chaque ray envoyé :
 double	*rayAnglesCalculator(double fov, int screen_width)
@@ -45,11 +45,21 @@ int		testest(t_config config)
 	t_object	*result;
 	int		i = 0;
 
+	if (!(result = malloc(sizeof(*result) * 20)))
+		return (2);
 	while(i < 20)
 	{
-		result = ray(25.50, 11.1, 1.941593 + angle_table[i], config.map);
-		printf("result: distance : %f ; Face: %c\n", result->distance, result->cardinal_face);
+		// ray(25.50, 11.1, 1.941593 + angle_table[i], config.map, &result[i]);
+		// printf("result: distance : %f ; Face: %c\n", result[i].distance, result[i].cardinal_face);
+		// if (result[i].next)
+		// {
+		// 	ft_objclear(&(result[i].next));
+		// 	if(result[i].next)
+		// 		printf("Fuck\n");
+		// }
 		i++;
 	}
+	free(angle_table);
+	angle_table = 0;
 	return (0);
 }
