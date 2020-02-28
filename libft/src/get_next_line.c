@@ -6,21 +6,19 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/28 12:52:52 by pohl              #+#    #+#             */
-/*   Updated: 2020/01/15 15:13:22 by pohl             ###   ########.fr       */
+/*   Updated: 2020/02/23 19:51:24 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/uio.h>
 #include <unistd.h>
+#include "libft.h"
 
-char *ft_strjoin_freefirst(char const *s1, char const *s2)
+char		*ft_strjoin_freefirst(char const *s1, char const *s2)
 {
-	int i;
-	int j;
-	char *buffer;
+	int		i;
+	int		j;
+	char	*buffer;
 
 	i = 0;
 	j = 0;
@@ -31,7 +29,7 @@ char *ft_strjoin_freefirst(char const *s1, char const *s2)
 		while (s2[j])
 			j++;
 	if ((buffer = (char *)malloc(i + j + 1)) == NULL)
-		return (0);
+		return (NULL);
 	if (s1 && (j = -1))
 		while (s1[++j])
 			buffer[j] = s1[j];
@@ -44,7 +42,7 @@ char *ft_strjoin_freefirst(char const *s1, char const *s2)
 	return (buffer);
 }
 
-char *ft_strncpy(char *dst, const char *src, int len)
+char		*ft_strncpy(char *dst, const char *src, int len)
 {
 	int i;
 
@@ -60,7 +58,7 @@ char *ft_strncpy(char *dst, const char *src, int len)
 	return (dst);
 }
 
-static int check_rest(char **rest, char **line)
+static int	check_rest(char **rest, char **line)
 {
 	long n;
 	char *temp;
@@ -79,23 +77,33 @@ static int check_rest(char **rest, char **line)
 		}
 		return (-1);
 	}
+	if (!*rest)
+	{
+		if (!(*rest = (char *)malloc(sizeof(**rest))))
+			return (-1);
+		(*rest)[0] = 0;
+	}
 	return (0);
 }
 
-int final_return(char **rest, char **line)
+int			final_return(char **line, char **rest)
 {
-	if (!(*line = ft_strdup(*rest)))
-		return (-1);
-	free(*rest);
-	*rest = 0;
-	return (0);
+	if (rest)
+	{
+		*line = ft_strdup(*rest);
+		free(*rest);
+		*rest = 0;
+		if (*line)
+			return (0);
+	}
+	return (-1);
 }
 
-int get_next_line(int fd, char **line)
+int			get_next_line(int fd, char **line)
 {
-	static char *rest = NULL;
-	int n;
-	char *temp;
+	static char	*rest = NULL;
+	int			n;
+	char		*temp;
 
 	if (read(fd, 0, 0) == -1 || !line || BUFFER_SIZE <= 0)
 		return (-1);
@@ -106,12 +114,14 @@ int get_next_line(int fd, char **line)
 		if ((n = read(fd, temp, BUFFER_SIZE)) > 0)
 		{
 			temp[n] = 0;
-			rest = ft_strjoin_freefirst(rest, temp);
+			if (!(rest = ft_strjoin_freefirst(rest, temp)))
+				free(temp);
+			if (!rest)
+				return (-1);
 		}
 		free(temp);
-		temp = 0;
 		if (n == 0)
-			return (final_return(&rest, line));
+			return (final_return(line, &rest));
 		if (n < 0)
 			return (-1);
 	}

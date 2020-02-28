@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   parsing_fake.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 14:19:18 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/17 13:46:40 by pohl             ###   ########.fr       */
+/*   Updated: 2020/02/20 17:57:40 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,13 +57,12 @@ int		main(void)
 		{1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1},
 		{1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
 	};
-	if (!(config.mlx_ptr = mlx_init()))
-		return (-1);
-	config.res.x = 1000;
-	config.res.y = 1000;
-	config.sprite_texture = ft_strdup("imgs/r_m4.xpm");
-	config.f_col = 0x002bfcc4;// 0x00f67280;
-	config.c_col = 0x00355c7d;
+	// if (!(config.mlx_ptr = mlx_init()))
+	// 	return (-1);
+	// config.res.x = 1000;
+	// config.res.y = 1000;
+	// config.f_col = 0x002bfcc4;// 0x00f67280;
+	// config.c_col = 0x00355c7d;
 	config.map_size.x = 29;
 	config.map_size.y = 14;
 	if (!(config.map = malloc(sizeof(int **) * config.map_size.x)))
@@ -75,23 +74,23 @@ int		main(void)
 	config.player_pos.x = 26.5;
 	config.player_pos.y = 12.5;
 	config.player_angle = 4.71238898038;
-	config.wall[0].ptr = mlx_xpm_to_image(config.mlx_ptr, g_n_texture, &config.wall[0].size.x, &config.wall[0].size.y);
-	config.wall[0].data = (int *)mlx_get_data_addr(config.wall[0].ptr, &useless, &config.wall[0].size_line, &useless);
-	config.wall[0].size_line /= 4;
-	config.wall[1].ptr = mlx_xpm_to_image(config.mlx_ptr, g_s_texture, &config.wall[1].size.x, &config.wall[1].size.y);
-	config.wall[1].data = (int *)mlx_get_data_addr(config.wall[1].ptr, &useless, &config.wall[1].size_line, &useless);
-	config.wall[1].size_line /= 4;
-	config.wall[2].ptr = mlx_xpm_to_image(config.mlx_ptr, g_e_texture, &config.wall[2].size.x, &config.wall[2].size.y);
-	config.wall[2].data = (int *)mlx_get_data_addr(config.wall[2].ptr, &useless, &config.wall[2].size_line, &useless);
-	config.wall[2].size_line /= 4;
-	config.wall[3].ptr = mlx_xpm_to_image(config.mlx_ptr, g_w_texture, &config.wall[3].size.x, &config.wall[3].size.y);
-	config.wall[3].data = (int *)mlx_get_data_addr(config.wall[3].ptr, &useless, &config.wall[3].size_line, &useless);
-	config.wall[3].size_line /= 4;
-	config.wall[4].ptr = mlx_xpm_to_image(config.mlx_ptr, g_sprite_texture, &config.wall[4].size.x, &config.wall[4].size.y);
-	config.wall[4].data = (int *)mlx_get_data_addr(config.wall[4].ptr, &useless, &config.wall[4].size_line, &useless);
-	config.wall[4].size_line /= 4;
-	if (!(config.objects = malloc(sizeof(*config.objects))))
-		return (-1);
+	// config.wall[0].ptr = mlx_xpm_to_image(config.mlx_ptr, g_n_texture, &config.wall[0].size.x, &config.wall[0].size.y);
+	// config.wall[0].data = (int *)mlx_get_data_addr(config.wall[0].ptr, &useless, &config.wall[0].size_line, &useless);
+	// config.wall[0].size_line /= 4;
+	// config.wall[1].ptr = mlx_xpm_to_image(config.mlx_ptr, g_s_texture, &config.wall[1].size.x, &config.wall[1].size.y);
+	// config.wall[1].data = (int *)mlx_get_data_addr(config.wall[1].ptr, &useless, &config.wall[1].size_line, &useless);
+	// config.wall[1].size_line /= 4;
+	// config.wall[2].ptr = mlx_xpm_to_image(config.mlx_ptr, g_e_texture, &config.wall[2].size.x, &config.wall[2].size.y);
+	// config.wall[2].data = (int *)mlx_get_data_addr(config.wall[2].ptr, &useless, &config.wall[2].size_line, &useless);
+	// config.wall[2].size_line /= 4;
+	// config.wall[3].ptr = mlx_xpm_to_image(config.mlx_ptr, g_w_texture, &config.wall[3].size.x, &config.wall[3].size.y);
+	// config.wall[3].data = (int *)mlx_get_data_addr(config.wall[3].ptr, &useless, &config.wall[3].size_line, &useless);
+	// config.wall[3].size_line /= 4;
+	// config.wall[4].ptr = mlx_xpm_to_image(config.mlx_ptr, g_sprite_texture, &config.wall[4].size.x, &config.wall[4].size.y);
+	// config.wall[4].data = (int *)mlx_get_data_addr(config.wall[4].ptr, &useless, &config.wall[4].size_line, &useless);
+	// config.wall[4].size_line /= 4;
+	// if (!(config.objects = malloc(sizeof(*config.objects))))
+	// 	return (-1);
 	cub3d(&config);
 	// testest(config);
 }

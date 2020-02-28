@@ -1,26 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/07 17:02:07 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/26 13:27:11 by pohl             ###   ########.fr       */
+/*   Created: 2020/02/28 20:02:49 by pohl              #+#    #+#             */
+/*   Updated: 2020/02/28 20:34:21 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <string.h>
+#ifndef DEBUG_H
 
-void	*ft_memset(void *str, int c, size_t n)
-{
-	size_t			i;
+# define DEBUG_H
 
-	i = 0;
-	while (i < n)
-	{
-		((unsigned char *)str)[i] = c;
-		i++;
-	}
-	return (str);
-}
+# include <stdio.h>
+
+# define DP(x)	printf("%p\n", x)
+# define DD(x)	printf("%d\n", x)
+# define DS(x)	printf("%s\n", x)
+# define DF(x)	printf("%f\n", x)
+
+#endif

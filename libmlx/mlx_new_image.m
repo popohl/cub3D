@@ -28,7 +28,11 @@ void    *mlx_new_image(mlx_ptr_t *mlx_ptr, int width, int height)
   newimg->vertexes[2] = width;  newimg->vertexes[3] = 0.0;
   newimg->vertexes[4] = width;  newimg->vertexes[5] = -height;
   newimg->vertexes[6] = 0.0;  newimg->vertexes[7] = -height;
-  newimg->buffer = malloc(UNIQ_BPP*width*height);
+  if (!(newimg->buffer = malloc(UNIQ_BPP*width*height)))
+  {
+    free(newimg);
+    return (NULL);
+  }
   bzero(newimg->buffer, UNIQ_BPP*width*height);
 
   return (newimg);
@@ -201,6 +205,7 @@ int     mlx_destroy_font(mlx_ptr_t *mlx_ptr)
 {
   if (mlx_ptr && mlx_ptr->font)
   {
+    free(mlx_ptr->font->buffer);
     free(mlx_ptr->font);
     mlx_ptr->font = 0;
   }

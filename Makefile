@@ -1,4 +1,5 @@
-SRCS		= display.c parsing.c wouf.c utils.c
+SRCS		= display.c wouf.c utils.c parser.c readers.c map_reader.c \
+				check_map.c
 
 SRCS_BONUS	=
 
@@ -47,6 +48,7 @@ clean:
 
 fclean:	clean
 	$(RM) $(NAME) $(foreach L,$(LIBS),$L/$L.a)
+	$(RM) -r $(OBJ_DIR)
 
 re:
 	@$(MAKE) fclean

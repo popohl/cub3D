@@ -2,7 +2,7 @@
 static char *g_sprite_texture[] = {
 /* columns rows colors chars-per-pixel */
 "894 894 204 2 ",
-"   c None",
+"   c #000000",
 ".  c #010000",
 "X  c #0A0604",
 "o  c #0C0A05",

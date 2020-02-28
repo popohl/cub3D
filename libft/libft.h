@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:39:50 by pohl              #+#    #+#             */
-/*   Updated: 2020/01/15 15:03:20 by pohl             ###   ########.fr       */
+/*   Updated: 2020/02/20 09:59:42 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char			*ft_strrchr(const char *str, char c);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
 int				ft_atoi(const char *str);
+int				ft_atoi_increment(const char *str, int *i);
 void			*ft_memset(void *str, int c, size_t n);
 void			ft_bzero(void *str, size_t n);
 void			*ft_memcpy(void *dst, const void *src, size_t len);
@@ -70,5 +71,6 @@ void			ft_lstclear(t_list **lst, void (*del)(void*));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *), void (*d)(void *));
 int				get_next_line(int fd, char **line);
+int				is_whitespace(char c);
 
 #endif
