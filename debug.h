@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/28 20:02:49 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/28 20:34:21 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/01 16:55:48 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define DEBUG_H
 
 # include <stdio.h>
+# include <unistd.h>
 
 # define DP(x)	printf("%p\n", x)
 # define DD(x)	printf("%d\n", x)

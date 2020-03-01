@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 17:39:07 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/28 19:35:21 by pohl             ###   ########.fr       */
+/*   Updated: 2020/02/29 16:41:20 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,10 @@ int		read_res(t_config *config, char *line)
 					return (-1);
 				i++;
 			}
+			if (config->res.x > MAX_SCREEN_W)
+				config->res.x = MAX_SCREEN_W;
+			if (config->res.y > MAX_SCREEN_H)
+				config->res.y = MAX_SCREEN_H;
 			return (0);
 		}
 	}

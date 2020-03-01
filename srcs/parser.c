@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:59:05 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/28 20:49:13 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/01 18:18:46 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ t_config	*initialize_config(void)
 void __attribute__((destructor))
 			bonjour(void)
 {
-	system("leaks cub3d");
-	printf("Et tout est bien qui finit bien !\n");
+	// system("leaks cub3d");
+	// printf("Et tout est bien qui finit bien !\n");
 }
 
 int			analyse_line(char *line, t_config *config, int fd)

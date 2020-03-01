@@ -6,12 +6,11 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 16:41:39 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/28 20:50:38 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/01 20:38:41 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <mlx.h>
-#include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include "cub3d.h"
@@ -159,7 +158,7 @@ void	draw_column(t_config *conf, t_obj_list *list, int col)
 			conf->img.data[pixel] = merge(darken(get_tex(conf, i, tex_height,
 				&list->obj[list->size]), list->obj[list->size].distance),
 				conf->img.data[pixel]);
-			(i)++;
+			i++;
 		}
 	}
 }
@@ -167,6 +166,7 @@ void	draw_column(t_config *conf, t_obj_list *list, int col)
 int		display(t_config *cfg)
 {
 	int			i;
+	static int	once = 0;
 
 	apply_movement(cfg);
 	reset_screen(cfg->img.data, cfg->img.sl, cfg);
@@ -176,9 +176,12 @@ int		display(t_config *cfg)
 		cfg->list->size = 0;
 		ray(cfg->pl_pos, cfg->pl_angle + cfg->angles[i], cfg->map, cfg->list);
 		draw_column(cfg, cfg->list, i);
-		(i)++;
+		i++;
 	}
 	mlx_put_image_to_window(cfg->mlx_ptr, cfg->win_ptr, cfg->img.ptr, 0, 0);
+	if (!once)
+		write(1, cfg->img.data, cfg->res.x * cfg->res.y * 4);
+	once = 1;
 	return (0);
 }
 
