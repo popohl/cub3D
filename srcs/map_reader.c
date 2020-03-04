@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 11:21:30 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/28 19:37:54 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/04 20:16:21 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,19 +95,18 @@ int		read_line(t_config *config, char *line)
 	i = -1;
 	width = 0;
 	while (line[++i])
-		if (!is_whitespace(line[i]))
+	{
+		if ((line[i] >= '0' && line[i] <= '2') || line[i] == ' ')
+			config->map[config->map_size.y - 1][width++] =
+					(line[i] == '1') ? 1 : line[i];
+		else if (config->pl_angle == -1)
 		{
-			if (line[i] >= '0' && line[i] <= '2')
-				config->map[config->map_size.y - 1][width++] =
-						(line[i] == '1') ? 1 : line[i];
-			else if (config->pl_angle == -1)
-			{
-				config->map[config->map_size.y - 1][width] = '0';
-				set_player_pos(config, line[i], width++);
-			}
-			else if ((line[0] = 'P') == 'P')
-				return (-1);
+			config->map[config->map_size.y - 1][width] = '0';
+			set_player_pos(config, line[i], width++);
 		}
+		else if ((line[0] = 'P') == 'P')
+			return (-1);
+	}
 	return (0);
 }
 

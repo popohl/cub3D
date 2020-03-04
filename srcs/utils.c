@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/09 16:05:23 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/28 19:11:47 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/04 20:30:03 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ int		count_digits(char *str, int *width)
 	while (str[i])
 	{
 		if ((str[i] >= '0' && str[i] <= '2') || str[i] == 'N' || str[i] == 'S'
-				|| str[i] == 'E' || str[i] == 'W')
+				|| str[i] == 'E' || str[i] == 'W' || str[i] == ' ')
 			digit_count++;
-		else if (!is_whitespace(str[i]))
+		else
 			return (-1);
 		i++;
 	}

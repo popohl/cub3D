@@ -1,5 +1,3 @@
-Gérer le flag '--save'
-
 Gérer les problèmes de position de départ
 
 Error handling: Écrire les erreurs au format "Error\n + titre de l'erreur"

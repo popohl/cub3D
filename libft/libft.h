@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/07 15:39:50 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/20 09:59:42 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/02 12:46:21 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,6 @@ void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *), void (*d)(void *));
 int				get_next_line(int fd, char **line);
 int				is_whitespace(char c);
+int				ft_intlen(int nbr);
 
 #endif

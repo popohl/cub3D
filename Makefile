@@ -1,5 +1,5 @@
 SRCS		= display.c wouf.c utils.c parser.c readers.c map_reader.c \
-				check_map.c
+				check_map.c bmp_creator.c
 
 SRCS_BONUS	=
 

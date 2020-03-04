@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 16:41:39 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/01 20:38:41 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/04 15:53:56 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ int		move(int keycode, t_config *config)
 		config->rot -= 1;
 	if (keycode == 124 || keycode == 14)
 		config->rot += 1;
+	if (keycode == 4)
+		create_img(config->res.x, config->res.y, config->img.data);
 	return (1);
 }
 
@@ -174,13 +176,13 @@ int		display(t_config *cfg)
 	while (i < cfg->res.x)
 	{
 		cfg->list->size = 0;
-		ray(cfg->pl_pos, cfg->pl_angle + cfg->angles[i], cfg->map, cfg->list);
+		ray(cfg, cfg->pl_angle + cfg->angles[i]);
 		draw_column(cfg, cfg->list, i);
 		i++;
 	}
 	mlx_put_image_to_window(cfg->mlx_ptr, cfg->win_ptr, cfg->img.ptr, 0, 0);
 	if (!once)
-		write(1, cfg->img.data, cfg->res.x * cfg->res.y * 4);
+		create_img(cfg->res.x, cfg->res.y, cfg->img.data);
 	once = 1;
 	return (0);
 }

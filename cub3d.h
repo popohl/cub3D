@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 14:35:29 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/28 20:47:13 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/04 15:53:26 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ typedef union			u_col
 }						t_col;
 
 int						cub3d(t_config *config);
-void					ray(t_2double pos, double angle, char **map,
-								t_obj_list *l);
+void					ray(t_config *config, double angle);
 int						darken(int	color, double distance);
 int						read_res(t_config *config, char *line);
 int						read_col(t_config *config, char *line);
@@ -101,5 +100,6 @@ int						print_map(char **map, t_2int map_size);
 int						count_digits(char *str, int *width);
 void					color_error(char *line);
 void					tex_error(char *line);
+int						create_img(int img_width, int img_height, int *data);
 
 #endif
