@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 14:35:29 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 18:57:04 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 19:20:49 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@
 # define MAX_OBJ 100
 # define MAX_SCREEN_W 2560
 # define MAX_SCREEN_H 1440
-
-// Delete next line
-# include "debug.h"
 
 # include "libft/libft.h"
 
@@ -110,5 +107,7 @@ int						move(int keycode, t_config *config);
 int						stop_move(int keycode, t_config *config);
 void					apply_movement(t_config *config);
 int						merge(int new, int old);
+int						get_tex(t_config *config, int y,
+							int total_height, t_object *obj);
 
 #endif

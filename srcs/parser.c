@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:59:05 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 19:00:35 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 19:39:01 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,20 @@ int			analyse_line(char *line, t_config *config, int fd)
 
 int			arg_processor(t_config *config, int argc, char **argv)
 {
-	int fd;
+	int	fd;
+	int	i;
 
+	i = 0;
 	if (argc < 2)
 		error(1, &config, 0, 0);
 	if (argc > 3)
 		error(1, &config, 0, 0);
+	while (argv[1][i])
+		i++;
+	while (argv[1][i] && is_whitespace(argv[1][i - 1]))
+		i--;
+	if (ft_strncmp(argv[1] + i - 4, ".cub", 4))
+		error(9, &config, 0, 0);
 	if ((fd = open(argv[1], O_RDONLY)) == -1)
 		error(7, &config, 0, 0);
 	if (argc == 3)

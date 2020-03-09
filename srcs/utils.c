@@ -6,12 +6,13 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/09 16:05:23 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 18:58:18 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 19:20:17 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
+#include <math.h>
 #include "cub3d.h"
 
 /*

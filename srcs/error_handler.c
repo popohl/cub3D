@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 17:44:40 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 18:52:57 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 19:37:27 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ void	error(int code, t_config **config, char *line, int fd)
 		ft_putstr_fd("The configuration file wasn't found, check path\n", 2);
 	else if (code == 8)
 		ft_putstr_fd("Invalid parameter\n", 2);
+	else if (code == 9)
+		ft_putstr_fd("Wrong file type for the config file\n", 2);
 	else
 		ft_putstr_fd("unknown error\n", 2);
 	if (line)
