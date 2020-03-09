@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 14:35:29 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/04 15:53:26 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 18:57:04 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ typedef struct			s_config
 	int					mvt_side;
 	int					rot;
 	t_obj_list			*list;
+	char				screenshot_on_start;
 }						t_config;
 
 typedef union			u_col
@@ -101,5 +102,13 @@ int						count_digits(char *str, int *width);
 void					color_error(char *line);
 void					tex_error(char *line);
 int						create_img(int img_width, int img_height, int *data);
+void					map_error(char *line);
+void					error(int code, t_config **config, char *line, int fd);
+void					free_all(t_config **conf, int fd);
+int						close_program(t_config *config);
+int						move(int keycode, t_config *config);
+int						stop_move(int keycode, t_config *config);
+void					apply_movement(t_config *config);
+int						merge(int new, int old);
 
 #endif

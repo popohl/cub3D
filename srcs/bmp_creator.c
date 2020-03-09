@@ -6,50 +6,51 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/29 17:15:37 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/02 16:24:07 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 18:18:14 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <stdlib.h>
 #include "cub3d.h"
+
+/*
+** write_bmfh writes the bmp file header in the bmp file
+** this header gives info on the file itself
+*/
 
 void	write_bmfh(int fd, int img_width, int img_height)
 {
 	int		temp;
 
-	// Header
 	write(fd, "BM", 2);
-	// file size in bytes
 	temp = 54 + img_width * img_height * 4;
 	write(fd, &temp, 4);
-	// bfReserved1 && bfReserved2
 	temp = 0;
 	write(fd, &temp, 4);
-	// bfOffBits
 	temp = 54;
 	write(fd, &temp, 4);
 }
+
+/*
+** write_bmih writes the bmp image header in the bmp file after the bmfh
+** this header gives info on the image
+*/
 
 void	write_bmih(int fd, int img_width, int img_height)
 {
 	int		temp;
 
-	// biSize
 	temp = 40;
 	write(fd, &temp, 4);
-	// biWidth && biHeight
 	temp = img_width;
 	write(fd, &temp, 4);
 	temp = img_height;
 	write(fd, &temp, 4);
-	// biPlanes (2B)
 	write(fd, "\1\0", 2);
-	// biBitCount (2B)
 	temp = 32;
 	write(fd, &temp, 2);
-	// biCompression && biSizeImage && biXPelsPerMeter
-	// && biYPelsPerMeter && biClrUsed && biClrImportant
 	temp = 0;
 	write(fd, &temp, 4);
 	write(fd, &temp, 4);
@@ -58,6 +59,11 @@ void	write_bmih(int fd, int img_width, int img_height)
 	write(fd, &temp, 4);
 	write(fd, &temp, 4);
 }
+
+/*
+** write_img writes the image from the screen into the file line by line,
+** bottom to top, because images are stored upside down in the bmp format
+*/
 
 void	write_img(int fd, int *img_data, int img_width, int img_height)
 {
@@ -70,6 +76,11 @@ void	write_img(int fd, int *img_data, int img_width, int img_height)
 		write(fd, img_data + i, img_width * 4);
 	}
 }
+
+/*
+** create_pathname creates a name for the image using a static int counting the
+** screenshot number
+*/
 
 char	*create_pathname(int screenshot_count)
 {
@@ -91,15 +102,24 @@ char	*create_pathname(int screenshot_count)
 	return (path);
 }
 
+/*
+** create image will create a file with a chmod of 755 and write the image given
+** in parameter in it.
+*/
+
 int		create_img(int img_width, int img_height, int *img_data)
 {
 	int			fd;
 	static int	screenshot_count = 0;
+	char		*path;
 
-	fd = open(create_pathname(++screenshot_count), O_CREAT | O_WRONLY, S_IRWXU
+	if (!(path = create_pathname(++screenshot_count)))
+		return (-1);
+	fd = open(path, O_CREAT | O_WRONLY, S_IRWXU
 				| S_IRGRP | S_IXGRP | S_IROTH | S_IXOTH);
 	write_bmfh(fd, img_width, img_height);
 	write_bmih(fd, img_width, img_height);
 	write_img(fd, img_data, img_width, img_height);
+	free(path);
 	return (0);
 }

@@ -6,13 +6,19 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/09 16:05:23 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 15:11:25 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 18:58:18 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 #include "cub3d.h"
+
+/*
+** darken will fade the color given in parameter using the distance from the
+** player, the further away it is, the darker the color get until it's
+** completely black, at a distance of 15 blocks.
+*/
 
 int		darken(int color, double distance)
 {
@@ -34,6 +40,11 @@ int		darken(int color, double distance)
 	result = result << 8 | c[3];
 	return (result);
 }
+
+/*
+** prints the map in the command line.
+** converts the characters to "readable" ones, i.e. '\0' becomes '0'
+*/
 
 int		print_map(char **map, t_2int map_size)
 {
@@ -84,26 +95,44 @@ int		count_digits(char *str, int *width)
 	return (digit_count ? 0 : -1);
 }
 
-void	color_error(char *line)
+/*
+** merge combines 2 pixels using their transparency value.
+*/
+
+int		merge(int new, int old)
 {
-	if (*line == 'F')
-		write(2, "Wrong formatting for the floor color parameter.\n", 48);
-	else
-		write(2, "Wrong formatting for the ceiling color parameter.\n", 50);
+	t_col	u_col[2];
+
+	u_col[0].i = new;
+	u_col[1].i = old;
+	u_col[0].c.b = u_col[0].c.b * (1 - u_col[0].c.a / 255.) +
+			u_col[1].c.b * ((u_col[0].c.a / 255.) - (u_col[1].c.a / 255.));
+	u_col[0].c.g = u_col[0].c.g * (1 - u_col[0].c.a / 255.) +
+			u_col[1].c.g * ((u_col[0].c.a / 255.) - (u_col[1].c.a / 255.));
+	u_col[0].c.r = u_col[0].c.r * (1 - u_col[0].c.a / 255.) +
+			u_col[1].c.r * ((u_col[0].c.a / 255.) - (u_col[1].c.a / 255.));
+	u_col[0].c.a = 0;
+	return (u_col[0].i);
 }
 
-void	tex_error(char *line)
+/*
+** get_tex returns the color of an image's pixel given it's position in x and y
+*/
+
+int		get_tex(t_config *config, int y, int total_height, t_object *obj)
 {
-	if (*line == 'N')
-		write(2, "The North texture is invalid.\n", 30);
-	else if (*line == 'S' && line[1] == 'O')
-		write(2, "The South texture is invalid.\n", 30);
-	else if (*line == 'E')
-		write(2, "The East texture is invalid.\n", 29);
-	else if (*line == 'W')
-		write(2, "The West texture is invalid.\n", 29);
-	else if (*line == 'S')
-		write(2, "The Sprite texture is invalid.\n", 31);
-	else
-		write(2, "The identifier is invalid.\n", 27);
+	double	proportion;
+	int		face_hit;
+	int		result;
+	t_2int	img;
+
+	face_hit = (obj->type > 1) ? 4 : obj->face;
+	proportion = ((double)y + total_height / 2) / total_height;
+	img.y = (int)floor(config->wall[face_hit].size.y * proportion);
+	img.x = (int)floor(config->wall[face_hit].size.x * obj->hit_location);
+	result =
+		config->wall[face_hit].data[img.x + img.y * config->wall[face_hit].sl];
+	if (obj->hit_location < 0)
+		result = 0xff000000;
+	return (result);
 }

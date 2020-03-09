@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 16:41:39 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 12:59:55 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 18:58:20 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include "cub3d.h"
-
-int		close_program(t_config *params)
-{
-	mlx_destroy_window(params->mlx_ptr, params->win_ptr);
-	exit(1);
-	return (0);
-}
 
 void	reset_screen(int32_t *img_data, int sl, t_config *config)
 {
@@ -37,107 +30,6 @@ void	reset_screen(int32_t *img_data, int sl, t_config *config)
 		img_data[i] = config->f_col;
 		i++;
 	}
-}
-
-int		move(int keycode, t_config *config)
-{
-	if (keycode == 13 && !config->mvt_forward)
-		config->mvt_forward = 1;
-	if (keycode == 1 && !config->mvt_forward)
-		config->mvt_forward = -1;
-	if (keycode == 0 && !config->mvt_side)
-		config->mvt_side = 1;
-	if (keycode == 2 && !config->mvt_side)
-		config->mvt_side = -1;
-	if (keycode == 123 || keycode == 12)
-		config->rot -= 1;
-	if (keycode == 124 || keycode == 14)
-		config->rot += 1;
-	if (keycode == 4)
-		create_img(config->res.x, config->res.y, config->img.data);
-	return (1);
-}
-
-int		stop_move(int keycode, t_config *config)
-{
-	if (keycode == 13)
-		config->mvt_forward = 0;
-	if (keycode == 1)
-		config->mvt_forward = 0;
-	if (keycode == 0)
-		config->mvt_side = 0;
-	if (keycode == 2)
-		config->mvt_side = 0;
-	if (keycode == 123 || keycode == 12)
-		config->rot = 0;
-	if (keycode == 124 || keycode == 14)
-		config->rot = 0;
-	if (keycode == 53)
-		close_program(config);
-	return (1);
-}
-
-void	apply_movement(t_config *config)
-{
-	double	speed;
-	double	new_pos_x;
-	double	new_pos_y;
-
-	speed = 0.05;
-	new_pos_x = config->pl_pos.x;
-	new_pos_y = config->pl_pos.y;
-	if (config->mvt_forward)
-	{
-		new_pos_x += cos(config->pl_angle) * speed * config->mvt_forward;
-		new_pos_y += sin(config->pl_angle) * speed * config->mvt_forward;
-	}
-	if (config->mvt_side)
-	{
-		new_pos_x += cos(config->pl_angle - M_PI_2) * speed * config->mvt_side;
-		new_pos_y += sin(config->pl_angle - M_PI_2) * speed * config->mvt_side;
-	}
-	if (config->map[(int)floor(config->pl_pos.y)][(int)floor(new_pos_x)] != 1)
-		config->pl_pos.x = new_pos_x;
-	if (config->map[(int)floor(new_pos_y)][(int)floor(config->pl_pos.x)] != 1)
-		config->pl_pos.y = new_pos_y;
-	if (config->rot > 0)
-		config->pl_angle += M_PI / 64;
-	else if (config->rot < 0)
-		config->pl_angle -= M_PI / 64;
-}
-
-int		get_tex(t_config *config, int y, int total_height, t_object *obj)
-{
-	double	proportion;
-	int		face_hit;
-	int		result;
-	t_2int	img;
-
-	face_hit = (obj->type > 1) ? 4 : obj->face;
-	proportion = ((double)y + total_height / 2) / total_height;
-	img.y = (int)floor(config->wall[face_hit].size.y * proportion);
-	img.x = (int)floor(config->wall[face_hit].size.x * obj->hit_location);
-	result =
-		config->wall[face_hit].data[img.x + img.y * config->wall[face_hit].sl];
-	if (obj->hit_location < 0)
-		result = 0xff000000;
-	return (result);
-}
-
-int		merge(int new, int old)
-{
-	t_col	u_col[2];
-
-	u_col[0].i = new;
-	u_col[1].i = old;
-	u_col[0].c.b = u_col[0].c.b * (1 - u_col[0].c.a / 255.) +
-			u_col[1].c.b * ((u_col[0].c.a / 255.) - (u_col[1].c.a / 255.));
-	u_col[0].c.g = u_col[0].c.g * (1 - u_col[0].c.a / 255.) +
-			u_col[1].c.g * ((u_col[0].c.a / 255.) - (u_col[1].c.a / 255.));
-	u_col[0].c.r = u_col[0].c.r * (1 - u_col[0].c.a / 255.) +
-			u_col[1].c.r * ((u_col[0].c.a / 255.) - (u_col[1].c.a / 255.));
-	u_col[0].c.a = 0;
-	return (u_col[0].i);
 }
 
 void	draw_column(t_config *conf, t_obj_list *list, int col)
@@ -170,7 +62,6 @@ void	draw_column(t_config *conf, t_obj_list *list, int col)
 int		display(t_config *cfg)
 {
 	int			i;
-	static int	once = 0;
 
 	apply_movement(cfg);
 	reset_screen(cfg->img.data, cfg->img.sl, cfg);
@@ -183,9 +74,9 @@ int		display(t_config *cfg)
 		i++;
 	}
 	mlx_put_image_to_window(cfg->mlx_ptr, cfg->win_ptr, cfg->img.ptr, 0, 0);
-	if (!once)
+	if (cfg->screenshot_on_start)
 		create_img(cfg->res.x, cfg->res.y, cfg->img.data);
-	once = 1;
+	cfg->screenshot_on_start = 0;
 	return (0);
 }
 
