@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:59:05 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/01 18:18:46 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 14:46:43 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,19 @@ void __attribute__((destructor))
 
 int			analyse_line(char *line, t_config *config, int fd)
 {
-	if (line[0] == 'R' && read_res(config, line))
-		return (error(2, &config, line, fd));
-	else if ((line[0] == 'N' || line[0] == 'S' || line[0] == 'E' ||
-			line[0] == 'W') && read_tex(config, line))
-		return (error(3, &config, line, fd));
-	else if ((line[0] == 'F' || line[0] == 'C') && read_col(config, line))
-		return (error(4, &config, line, fd));
-	else if (line[0] >= '0' && line[0] <= '9' && read_map(config, line))
+	int		i;
+
+	i = 0;
+	while (is_whitespace(line[i]))
+		i++;
+	if (line[i] == 'R' && read_res(config, line + i))
+		return (error(2, &config, line + i, fd));
+	else if ((line[i] == 'N' || line[i] == 'S' || line[i] == 'E' ||
+			line[i] == 'W') && read_tex(config, line + i))
+		return (error(3, &config, line + i, fd));
+	else if ((line[i] == 'F' || line[i] == 'C') && read_col(config, line + i))
+		return (error(4, &config, line + i, fd));
+	else if (line[i] >= '0' && line[i] <= '9' && read_map(config, line))
 		return (error(5, &config, line, fd));
 	return (0);
 }

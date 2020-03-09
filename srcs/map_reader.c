@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/21 11:21:30 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/04 20:16:21 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 14:54:11 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	set_player_pos(t_config *config, char orientation, int pos_x)
 	else if (orientation == 'E')
 		config->pl_angle = 0;
 	config->pl_angle += 0.001;
-	config->pl_pos.x = pos_x;
-	config->pl_pos.y = config->map_size.y - 1;
+	config->pl_pos.x = pos_x + 0.5;
+	config->pl_pos.y = config->map_size.y - 0.5;
 }
 
 /*

@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/09 16:05:23 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/04 20:30:03 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 15:11:25 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,11 @@ int		darken(int color, double distance)
 	int				result;
 
 	distance = 1 - distance / 15;
+	c[0] = ((unsigned char)(color >> (3 * 8)));
+	if (distance <= 0 && c[0] == 0xff)
+		return (0xff000000);
 	if (distance <= 0)
 		return (0);
-	c[0] = ((unsigned char)(color >> (3 * 8)));
 	c[1] = ((unsigned char)(color >> (2 * 8))) * distance;
 	c[2] = ((unsigned char)(color >> (1 * 8))) * distance;
 	c[3] = ((unsigned char)(color >> (0 * 8))) * distance;
