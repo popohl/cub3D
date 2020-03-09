@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 16:41:39 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/04 15:53:56 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 12:59:55 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,8 @@ int		get_tex(t_config *config, int y, int total_height, t_object *obj)
 	img.x = (int)floor(config->wall[face_hit].size.x * obj->hit_location);
 	result =
 		config->wall[face_hit].data[img.x + img.y * config->wall[face_hit].sl];
+	if (obj->hit_location < 0)
+		result = 0xff000000;
 	return (result);
 }
 

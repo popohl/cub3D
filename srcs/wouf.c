@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/26 17:36:24 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/04 20:36:02 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 13:13:25 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void		get_hit_info(int face, double vdir, double distance, double pos, t_object 
 	double		hit_location;
 
 	object->face = face;
+	hit_location = distance / fabs(vdir) + (vdir < 0 ? 1 - (pos - floor(pos)) : (pos - floor(pos)));
 	hit_location = hit_location - floor(hit_location);
 	hit_location = (vdir > 0) ? hit_location : 1 - hit_location;
 	object->type = 1;
@@ -27,28 +28,27 @@ void		get_hit_info(int face, double vdir, double distance, double pos, t_object 
 	object->distance = distance;
 }
 
-void		get_sprite_info(t_config *cfg, t_2double vdir, t_2int sprite_pos, int type, double angle_ah)
+void		get_sprite_info(t_config *cfg, t_2int sprite_pos,
+				int type, double ray_angle)
 {
 	t_2double	cntr;
 	t_object	*object;
-	double		sp_angl;
-	t_2double	ext[2];
-	double		ext_angle[2];
+	double		rel_angle;
 
 	object = &cfg->list->obj[cfg->list->size++];
 	object->face = 0;
 	object->type = type;
-
 	cntr = (t_2double){sprite_pos.x + 0.5, sprite_pos.y + 0.5};
-	double ac = hypot(cfg->pl_pos.x - cntr.x, cfg->pl_pos.y - cntr.y);
-	double angle_de = cfg->pl_angle - M_PI_2;
-	t_2double d = (t_2double){cntr.x - cos(angle_de) / 2, cntr.y - sin(angle_de) / 2};
-	t_2double e = (t_2double){cntr.x + cos(angle_de) / 2, cntr.y + sin(angle_de) / 2};
-	double angle_ad = atan2(d.x - cfg->pl_pos.x, d.y - cfg->pl_pos.y);
-	double angle_ae = atan2(e.x - cfg->pl_pos.x, e.y - cfg->pl_pos.y);
-	printf("ad: %f, ah: %f, ae: %f\r", angle_ad, atan2(vdir.x, vdir.y), angle_ae);
-	object->distance = ac;
-	object->hit_location = angle_ah - angle_ad / angle_ae - angle_ad;
+	object->distance = hypot(cfg->pl_pos.x - cntr.x, cfg->pl_pos.y - cntr.y);
+	while (ray_angle > M_PI)
+		ray_angle -= 2 * M_PI;
+	while (ray_angle < -M_PI)
+		ray_angle += 2 * M_PI;
+	rel_angle = 
+		ray_angle- atan2(cntr.y - cfg->pl_pos.y, cntr.x - cfg->pl_pos.x);
+	object->hit_location = tan(rel_angle) * object->distance + .5;
+	if (object->hit_location < 0 || object->hit_location > 1)
+		object->hit_location = -1;
 }
 
 void		ray(t_config *config, double angle)
@@ -88,7 +88,7 @@ void		ray(t_config *config, double angle)
 		}
 		if (type > 1 && config->list->size < MAX_OBJ)
 		{
-			get_sprite_info(config, vdir, ray_pos, type, angle);
+			get_sprite_info(config, ray_pos, type, angle);
 		}
 	}
 }

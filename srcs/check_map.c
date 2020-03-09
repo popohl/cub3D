@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 16:20:20 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/04 20:22:19 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 11:25:16 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ int		check_map(t_config *config)
 		return (-1);
 	if (flood_fill(config->map, config->map_size, start_pos.x, start_pos.y))
 		return (-1);
-	print_map(config->map, config->map_size);
+	// print_map(config->map, config->map_size);
 	return (0);
 }

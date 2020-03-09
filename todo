@@ -1,5 +1,7 @@
 Gérer les problèmes de position de départ
 
+Gérer les problèmes d'assombrissement des sprites lorsque l'on s'éloigne
+
 Error handling: Écrire les erreurs au format "Error\n + titre de l'erreur"
 	- map donnée en paramètre invalide
 	- map invalide
