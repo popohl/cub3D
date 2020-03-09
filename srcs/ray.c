@@ -6,7 +6,7 @@
 /*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/26 17:36:24 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 18:43:30 by pohl             ###   ########.fr       */
+/*   Updated: 2020/03/09 20:22:25 by pohl             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ void		get_sprite_info(t_config *cfg, t_2int sprite_pos,
 	cntr = (t_2double){sprite_pos.x + 0.5, sprite_pos.y + 0.5};
 	object->distance = hypot(cfg->pl_pos.x - cntr.x, cfg->pl_pos.y - cntr.y);
 	rel_angle = (vdir.y > 0 ? 1 : -1) * acos(1 / vdir.x);
-	while (rel_angle > M_PI)
-		rel_angle -= 2 * M_PI;
-	while (rel_angle < -M_PI)
-		rel_angle += 2 * M_PI;
 	rel_angle =
 		rel_angle - atan2(cntr.y - cfg->pl_pos.y, cntr.x - cfg->pl_pos.x);
 	object->hit_location = tan(rel_angle) * object->distance + .5;
@@ -51,7 +47,8 @@ void		get_sprite_info(t_config *cfg, t_2int sprite_pos,
 		object->hit_location = -1;
 }
 
-void		truc(t_config *cfg, t_2int ray_p, t_2double vdir, t_2double dist)
+void		ray_movement(t_config *cfg, t_2int ray_p,
+				t_2double vdir, t_2double dist)
 {
 	while (cfg->map[ray_p.y][ray_p.x] != 1)
 	{
@@ -92,5 +89,5 @@ void		ray(t_config *cfg, double angle)
 	distance.y = (cfg->pl_pos.y - (int)cfg->pl_pos.y) * fabs(vdir.y);
 	if (vdir.y > 0)
 		distance.y = fabs(vdir.y) - distance.y;
-	truc(cfg, ray_p, vdir, distance);
+	ray_movement(cfg, ray_p, vdir, distance);
 }

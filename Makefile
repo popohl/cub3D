@@ -1,4 +1,4 @@
-SRCS		= display.c wouf.c utils.c parser.c readers.c map_reader.c \
+SRCS		= display.c ray.c utils.c parser.c readers.c map_reader.c \
 				check_map.c bmp_creator.c error_handler.c movement_handler.c
 
 SRCS_BONUS	=
