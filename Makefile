@@ -15,7 +15,7 @@ DEP			+= $(patsubst %.o,%.d,$(OBJS_BONUS))
 
 NAME		= cub3d
 CC			= clang
-CFLAGS		= -Wall -Wextra -g3
+CFLAGS		= -Wall -Wextra -Werror -Ofast -g3
 LDFLAGS		= -lm -lXext -lX11 -lbsd -lmlx
 INCLUDES	:= -I . $(patsubst %,-I %,$(LIBS))
 

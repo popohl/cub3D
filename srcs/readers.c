@@ -24,18 +24,18 @@ int		read_res(t_config *config, char *line)
 {
 	int		i;
 	int		temp;
-	Screen	*s;
+	t_2int	screen;
 
-	s = DefaultScreenOfDisplay(XOpenDisplay(NULL));
+	mlx_get_screen_size(config->mlx_ptr, &(screen.x), &(screen.y));
 	config->res.x = 0;
 	config->res.y = 0;
 	i = 1;
 	temp = ft_atoi_increment(line, &i);
-	config->res.x = (temp > s->width) ? s->width : temp;
+	config->res.x = (temp > screen.x) ? screen.x : temp;
 	if (line[i])
 	{
 		temp = ft_atoi_increment(line, &i);
-		config->res.y = (temp > s->height) ? s->height : temp;
+		config->res.y = (temp > screen.y) ? screen.y : temp;
 		if (config->res.x > 0 && config->res.y > 0)
 		{
 			i--;
