@@ -26,11 +26,12 @@ CFLAGS		= -Wall -Wextra -Werror
 all:			$(NAME)
 
 $(NAME):		$(OBJS) $(OBJS_BONUS)
-	ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
+	@echo "Compiling libft."
+	@ar rc $(NAME) $(OBJS) $(OBJS_BONUS)
 
 $(OBJ_DIR)/%.o:	$(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)
+	@$(CC) $(CFLAGS) -c $< -o $@ -I $(INC_DIR)
 
 clean:
 	$(RM) -r $(OBJ_DIR)

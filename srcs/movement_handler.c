@@ -3,31 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   movement_handler.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulohl <paulohl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 18:45:21 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 18:52:57 by pohl             ###   ########.fr       */
+/*   Updated: 2020/05/03 12:17:21 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #include <math.h>
 
+#define ARR_LEFT 65361
+#define ARR_RIGHT 65363
+#define UP 119
+#define DOWN 115
+#define LEFT 97
+#define RIGHT 100
+#define ESC 65307
+
+#define SPEED 0.05
+
 int		move(int keycode, t_config *config)
 {
-	if (keycode == 13 && !config->mvt_forward)
+	if (keycode == UP && !config->mvt_forward)
 		config->mvt_forward = 1;
-	if (keycode == 1 && !config->mvt_forward)
+	if (keycode == DOWN && !config->mvt_forward)
 		config->mvt_forward = -1;
-	if (keycode == 0 && !config->mvt_side)
+	if (keycode == LEFT && !config->mvt_side)
 		config->mvt_side = 1;
-	if (keycode == 2 && !config->mvt_side)
+	if (keycode == RIGHT && !config->mvt_side)
 		config->mvt_side = -1;
-	if (keycode == 123 || keycode == 12)
+	if (keycode == ARR_LEFT)
 		config->rot -= 1;
-	if (keycode == 124 || keycode == 14)
+	if (keycode == ARR_RIGHT)
 		config->rot += 1;
-	if (keycode == 4)
+	if (keycode == 116)
 		if (create_img(config->res.x, config->res.y, config->img.data))
 			close_program(config);
 	return (1);
@@ -35,19 +45,13 @@ int		move(int keycode, t_config *config)
 
 int		stop_move(int keycode, t_config *config)
 {
-	if (keycode == 13)
+	if (keycode == UP || keycode == DOWN)
 		config->mvt_forward = 0;
-	if (keycode == 1)
-		config->mvt_forward = 0;
-	if (keycode == 0)
+	if (keycode == LEFT || keycode == RIGHT)
 		config->mvt_side = 0;
-	if (keycode == 2)
-		config->mvt_side = 0;
-	if (keycode == 123 || keycode == 12)
+	if (keycode == ARR_LEFT || keycode == ARR_RIGHT)
 		config->rot = 0;
-	if (keycode == 124 || keycode == 14)
-		config->rot = 0;
-	if (keycode == 53)
+	if (keycode == ESC)
 		close_program(config);
 	return (1);
 }
@@ -58,7 +62,7 @@ void	apply_movement(t_config *config)
 	double	new_pos_x;
 	double	new_pos_y;
 
-	speed = 0.05;
+	speed = SPEED;
 	new_pos_x = config->pl_pos.x;
 	new_pos_y = config->pl_pos.y;
 	if (config->mvt_forward)

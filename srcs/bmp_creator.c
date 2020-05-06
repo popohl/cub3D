@@ -89,7 +89,7 @@ char	*create_pathname(int screenshot_count)
 	int			i;
 
 	if (screenshot_count < 10000)
-		if (!(path = strdup("imgs/screenshots/sc-0000.bmp")))
+		if (!(path = ft_strdup("imgs/screenshots/sc-0000.bmp")))
 			return (NULL);
 	char_count = ft_intlen(screenshot_count);
 	i = 0;
@@ -121,5 +121,6 @@ int		create_img(int img_width, int img_height, int *img_data)
 	write_bmih(fd, img_width, img_height);
 	write_img(fd, img_data, img_width, img_height);
 	free(path);
+	close(fd);
 	return (0);
 }

@@ -3,7 +3,7 @@ SRCS		= display.c ray.c utils.c parser.c readers.c map_reader.c \
 
 SRCS_BONUS	=
 
-LIBS		= libft libmlx
+LIBS		= libft
 
 OBJ_DIR		= objs
 SRC_DIR		= srcs
@@ -14,20 +14,16 @@ DEP			:= $(patsubst %.o,%.d,$(OBJS))
 DEP			+= $(patsubst %.o,%.d,$(OBJS_BONUS))
 
 NAME		= cub3d
-CC			= gcc
-CFLAGS		= -Wall -Wextra -g3 -Ofast
-LDFLAGS		= -framework OpenGL -framework AppKit
+CC			= clang
+CFLAGS		= -Wall -Wextra -g3
+LDFLAGS		= -lm -lXext -lX11 -lbsd -lmlx
 INCLUDES	:= -I . $(patsubst %,-I %,$(LIBS))
 
-all:
+all: 			$(NAME)
 	@$(foreach L, $(LIBS), $(MAKE) -C $L -j;)
-	@$(MAKE) $(NAME) -j
 
 $(NAME):		$(OBJS) $(foreach L,$(LIBS),$L/$L.a)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
-
-bonus:			$(OBJS) $(OBJS_BONUS) $(foreach L,$(LIBS),$L/$L.a)
-	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@
+	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 -include $(DEP)
 

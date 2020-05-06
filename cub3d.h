@@ -109,5 +109,6 @@ void					apply_movement(t_config *config);
 int						merge(int new, int old);
 int						get_tex(t_config *config, int y,
 							int total_height, t_object *obj);
+int						map_name_processor(t_config *conf, char *map_name);
 
 #endif

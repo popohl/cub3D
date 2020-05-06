@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
-#include <fcntl.h>
 #include <unistd.h>
 #include <mlx.h>
 #include "cub3d.h"
@@ -28,7 +27,6 @@ void		free_all(t_config **conf, int fd)
 			while (++i < 5)
 				if ((*conf)->wall[i].ptr)
 					mlx_destroy_image((*conf)->mlx_ptr, (*conf)->wall[i].ptr);
-			mlx_destroy_font((*conf)->mlx_ptr);
 			free((*conf)->mlx_ptr);
 		}
 		i = -1;
@@ -91,29 +89,22 @@ int			analyse_line(char *line, t_config *config, int fd)
 
 int			arg_processor(t_config *config, int argc, char **argv)
 {
-	int	fd;
 	int	i;
+	int	fd;
 
 	i = 0;
 	if (argc < 2)
 		error(1, &config, 0, 0);
-	if (argc > 3)
+	else if (argc > 3)
 		error(1, &config, 0, 0);
-	while (argv[1][i])
-		i++;
-	while (argv[1][i] && is_whitespace(argv[1][i - 1]))
-		i--;
-	if (ft_strncmp(argv[1] + i - 4, ".cub", 4))
-		error(9, &config, 0, 0);
-	if ((fd = open(argv[1], O_RDONLY)) == -1)
-		error(7, &config, 0, 0);
-	if (argc == 3)
-		if (!ft_strcmp(argv[2], "--save"))
+	config->screenshot_on_start = 0;
+	while (--argc > 0)
+	{
+		if (!ft_strcmp(argv[argc], "--save"))
 			config->screenshot_on_start = 1;
 		else
-			error(8, &config, 0, fd);
-	else
-		config->screenshot_on_start = 0;
+			fd = map_name_processor(config, argv[argc]);
+	}
 	return (fd);
 }
 

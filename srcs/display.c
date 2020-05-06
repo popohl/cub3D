@@ -12,6 +12,7 @@
 
 #include <mlx.h>
 #include <stdlib.h>
+#include <unistd.h>
 #include <math.h>
 #include "cub3d.h"
 
@@ -119,9 +120,9 @@ int		cub3d(t_config *conf)
 	conf->img.data = (int *)mlx_get_data_addr(conf->img.ptr, &u,
 			&conf->img.sl, &u);
 	conf->img.sl /= 4;
-	mlx_hook(conf->win_ptr, 2, 0, &move, conf);
-	mlx_hook(conf->win_ptr, 3, 0, &stop_move, conf);
-	mlx_hook(conf->win_ptr, 17, 0, &close_program, conf);
+	mlx_hook(conf->win_ptr, 2, 1 << 0, &move, conf);
+	mlx_hook(conf->win_ptr, 3, 1 << 1, &stop_move, conf);
+	mlx_hook(conf->win_ptr, 17, 1 << 17, &close_program, conf);
 	mlx_loop_hook(conf->mlx_ptr, &display, conf);
 	mlx_loop(conf->mlx_ptr);
 	return (1);

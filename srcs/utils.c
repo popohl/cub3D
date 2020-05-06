@@ -11,9 +11,27 @@
 /* ************************************************************************** */
 
 #include <stdlib.h>
+#include <fcntl.h>
 #include <unistd.h>
 #include <math.h>
 #include "cub3d.h"
+
+int		map_name_processor(t_config *config, char *map_name)
+{
+	int	i;
+	int	fd;
+
+	i = 0;
+	while (map_name[i])
+		i++;
+	while (map_name[i] && is_whitespace(map_name[i - 1]))
+		i--;
+	if (ft_strncmp(map_name + i - 4, ".cub", 4))
+		error(9, &config, 0, 0);
+	if ((fd = open(map_name, O_RDONLY)) == -1)
+		error(7, &config, 0, 0);
+	return (fd);
+}
 
 /*
 ** darken will fade the color given in parameter using the distance from the
@@ -40,34 +58,6 @@ int		darken(int color, double distance)
 	result = result << 8 | c[2];
 	result = result << 8 | c[3];
 	return (result);
-}
-
-/*
-** prints the map in the command line.
-** converts the characters to "readable" ones, i.e. '\0' becomes '0'
-*/
-
-int		print_map(char **map, t_2int map_size)
-{
-	int		i;
-	int		j;
-	char	to_write;
-
-	i = 0;
-	while (i < map_size.y)
-	{
-		j = 0;
-		while (j < map_size.x)
-		{
-			to_write = map[i][j] + '0';
-			write(1, &to_write, 1);
-			j++;
-		}
-		write(1, "\n", 1);
-		i++;
-	}
-	write(1, "\n\n", 2);
-	return (0);
 }
 
 /*
@@ -133,7 +123,7 @@ int		get_tex(t_config *config, int y, int total_height, t_object *obj)
 	img.x = (int)floor(config->wall[face_hit].size.x * obj->hit_location);
 	result =
 		config->wall[face_hit].data[img.x + img.y * config->wall[face_hit].sl];
-	if (obj->hit_location < 0)
+	if (obj->hit_location < 0 || result == 0)
 		result = 0xff000000;
 	return (result);
 }

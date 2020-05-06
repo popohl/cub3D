@@ -12,6 +12,7 @@
 
 #include "cub3d.h"
 #include <mlx.h>
+#include <X11/Xlib.h>
 
 /*
 ** read_res reads the two arguments given for resolution and returns -1 if
@@ -22,26 +23,25 @@
 int		read_res(t_config *config, char *line)
 {
 	int		i;
+	int		temp;
+	Screen	*s;
 
+	s = DefaultScreenOfDisplay(XOpenDisplay(NULL));
 	config->res.x = 0;
 	config->res.y = 0;
 	i = 1;
-	config->res.x = ft_atoi_increment(line, &i);
+	temp = ft_atoi_increment(line, &i);
+	config->res.x = (temp > s->width) ? s->width : temp;
 	if (line[i])
 	{
-		config->res.y = ft_atoi_increment(line, &i);
+		temp = ft_atoi_increment(line, &i);
+		config->res.y = (temp > s->height) ? s->height : temp;
 		if (config->res.x > 0 && config->res.y > 0)
 		{
-			while (line[i])
-			{
+			i--;
+			while (line[++i])
 				if (!is_whitespace(line[i]))
 					return (-1);
-				i++;
-			}
-			if (config->res.x > MAX_SCREEN_W)
-				config->res.x = MAX_SCREEN_W;
-			if (config->res.y > MAX_SCREEN_H)
-				config->res.y = MAX_SCREEN_H;
 			return (0);
 		}
 	}
@@ -120,6 +120,7 @@ void	assign_texture(t_config *config, t_texture tex, char *line)
 int		read_tex(t_config *config, char *line)
 {
 	int			i;
+	int			bpp;
 	t_texture	tex;
 
 	if (check_code(line))
@@ -132,7 +133,7 @@ int		read_tex(t_config *config, char *line)
 	tex.size.y--;
 	if (!tex.ptr)
 		return (-1);
-	tex.data = (int *)mlx_get_data_addr(tex.ptr, &i, &tex.sl, &i);
+	tex.data = (int *)mlx_get_data_addr(tex.ptr, &bpp, &tex.sl, &i);
 	tex.sl /= 4;
 	assign_texture(config, tex, line);
 	return (0);

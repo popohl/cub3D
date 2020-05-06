@@ -59,7 +59,7 @@ void	error(int code, t_config **config, char *line, int fd)
 {
 	ft_putstr_fd("Error\n", 2);
 	if (code == 1)
-		ft_putstr_fd("Invalid argument nuber.\n", 2);
+		ft_putstr_fd("Invalid argument number.\n", 2);
 	else if (code == 2)
 		ft_putstr_fd("The resolution arguments are incorrect.\n", 2);
 	else if (code == 3)
@@ -72,8 +72,6 @@ void	error(int code, t_config **config, char *line, int fd)
 		ft_putstr_fd("Invalid map\n", 2);
 	else if (code == 7)
 		ft_putstr_fd("The configuration file wasn't found, check path\n", 2);
-	else if (code == 8)
-		ft_putstr_fd("Invalid parameter\n", 2);
 	else if (code == 9)
 		ft_putstr_fd("Wrong file type for the config file\n", 2);
 	else
