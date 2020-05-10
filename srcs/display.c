@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulohl <paulohl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/09 16:41:39 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 18:58:20 by pohl             ###   ########.fr       */
+/*   Updated: 2020/05/10 12:53:51 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@
 #include <math.h>
 #include "cub3d.h"
 
-void	reset_screen(int32_t *img_data, int sl, t_config *config)
+void	reset_screen(int32_t *img_data, int sl, t_config *config, int screen_x)
 {
 	int		i;
 
 	i = 0;
-	while (i < (config->res.y / 2) * sl)
+	while (i < (config->res.y / 2))
 	{
-		img_data[i] = config->c_col;
+		img_data[i * sl + screen_x] = config->c_col;
 		i++;
 	}
-	while (i < config->res.y * sl)
+	while (i < config->res.y)
 	{
-		img_data[i] = config->f_col;
+		img_data[i * sl + screen_x] = config->f_col;
 		i++;
 	}
 }
@@ -65,20 +65,21 @@ int		display(t_config *cfg)
 	int			i;
 
 	apply_movement(cfg);
-	reset_screen(cfg->img.data, cfg->img.sl, cfg);
 	i = 0;
 	while (i < cfg->res.x)
 	{
 		cfg->list->size = 0;
+		reset_screen(cfg->img.data, cfg->img.sl, cfg, i);
 		ray(cfg, cfg->pl_angle + cfg->angles[i]);
 		draw_column(cfg, cfg->list, i);
 		i++;
 	}
-	mlx_put_image_to_window(cfg->mlx_ptr, cfg->win_ptr, cfg->img.ptr, 0, 0);
-	if (cfg->screenshot_on_start)
+	usleep(10000);
+	if (cfg->scrsht_on_start)
 		create_img(cfg->res.x, cfg->res.y, cfg->img.data);
-	cfg->screenshot_on_start = 0;
-	return (0);
+	else
+		mlx_put_image_to_window(cfg->mlx_ptr, cfg->win_ptr, cfg->img.ptr, 0, 0);
+	return (1);
 }
 
 double	*ray_angles_calculator(double fov, int screen_width)
@@ -105,9 +106,6 @@ int		cub3d(t_config *conf)
 {
 	int		u;
 
-	if (!(conf->win_ptr = mlx_new_window(conf->mlx_ptr,
-			conf->res.x, conf->res.y, "Not DOOM")))
-		return (-1);
 	if (!(conf->list = malloc(sizeof(*conf->list))))
 		return (-1);
 	conf->img.ptr = mlx_new_image(conf->mlx_ptr, conf->res.x, conf->res.y);
@@ -120,6 +118,11 @@ int		cub3d(t_config *conf)
 	conf->img.data = (int *)mlx_get_data_addr(conf->img.ptr, &u,
 			&conf->img.sl, &u);
 	conf->img.sl /= 4;
+	if (conf->scrsht_on_start)
+		return (display(conf));
+	if (!(conf->win_ptr = mlx_new_window(conf->mlx_ptr,
+			conf->res.x, conf->res.y, "Not DOOM")))
+		return (-1);
 	mlx_hook(conf->win_ptr, 2, 1 << 0, &move, conf);
 	mlx_hook(conf->win_ptr, 3, 1 << 1, &stop_move, conf);
 	mlx_hook(conf->win_ptr, 17, 1 << 17, &close_program, conf);

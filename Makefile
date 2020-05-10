@@ -13,9 +13,9 @@ OBJS_BONUS	:= $(patsubst %.c,$(OBJ_DIR)/%.o,$(SRCS_BONUS))
 DEP			:= $(patsubst %.o,%.d,$(OBJS))
 DEP			+= $(patsubst %.o,%.d,$(OBJS_BONUS))
 
-NAME		= cub3d
+NAME		= cub3D
 CC			= clang
-CFLAGS		= -Wall -Wextra -Werror -Ofast -g3
+CFLAGS		= -Wall -Wextra -Ofast -g3
 LDFLAGS		= -lm -lXext -lX11 -lbsd -lmlx
 INCLUDES	:= -I . $(patsubst %,-I %,$(LIBS))
 

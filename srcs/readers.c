@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   readers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulohl <paulohl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 17:39:07 by pohl              #+#    #+#             */
-/*   Updated: 2020/02/29 16:41:20 by pohl             ###   ########.fr       */
+/*   Updated: 2020/05/10 12:53:19 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,23 @@
 ** If the data is valid, saves the resolution in config
 */
 
-int		read_res(t_config *config, char *line)
+int		read_res(t_config *cfg, char *line)
 {
 	int		i;
 	int		temp;
-	t_2int	screen;
+	t_2int	sc;
 
-	mlx_get_screen_size(config->mlx_ptr, &(screen.x), &(screen.y));
-	config->res.x = 0;
-	config->res.y = 0;
+	mlx_get_screen_size(cfg->mlx_ptr, &(sc.x), &(sc.y));
+	cfg->res.x = 0;
+	cfg->res.y = 0;
 	i = 1;
 	temp = ft_atoi_increment(line, &i);
-	config->res.x = (temp > screen.x) ? screen.x : temp;
+	cfg->res.x = (cfg->scrsht_on_start || temp < sc.x) ? temp : sc.x;
 	if (line[i])
 	{
 		temp = ft_atoi_increment(line, &i);
-		config->res.y = (temp > screen.y) ? screen.y : temp;
-		if (config->res.x > 0 && config->res.y > 0)
+		cfg->res.y = (cfg->scrsht_on_start || temp < sc.y) ? temp : sc.y;
+		if (cfg->res.x > 0 && cfg->res.y > 0)
 		{
 			i--;
 			while (line[++i])

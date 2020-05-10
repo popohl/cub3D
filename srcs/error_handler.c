@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_handler.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulohl <paulohl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/03/09 17:44:40 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 19:37:27 by pohl             ###   ########.fr       */
+/*   Updated: 2020/05/09 16:37:42 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 int		close_program(t_config *config)
 {
 	mlx_destroy_window(config->mlx_ptr, config->win_ptr);
+	free_all(&config, 0);
 	exit(1);
 	return (0);
 }

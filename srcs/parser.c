@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulohl <paulohl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 14:59:05 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 19:39:01 by pohl             ###   ########.fr       */
+/*   Updated: 2020/05/10 12:53:51 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,11 @@ int			arg_processor(t_config *config, int argc, char **argv)
 		error(1, &config, 0, 0);
 	else if (argc > 3)
 		error(1, &config, 0, 0);
-	config->screenshot_on_start = 0;
+	config->scrsht_on_start = 0;
 	while (--argc > 0)
 	{
 		if (!ft_strcmp(argv[argc], "--save"))
-			config->screenshot_on_start = 1;
+			config->scrsht_on_start = 1;
 		else
 			fd = map_name_processor(config, argv[argc]);
 	}

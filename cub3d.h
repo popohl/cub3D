@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pohl <pohl@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: paulohl <paulohl@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/15 14:35:29 by pohl              #+#    #+#             */
-/*   Updated: 2020/03/09 19:20:49 by pohl             ###   ########.fr       */
+/*   Updated: 2020/05/10 12:53:51 by paulohl          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct			s_config
 	int					mvt_side;
 	int					rot;
 	t_obj_list			*list;
-	char				screenshot_on_start;
+	char				scrsht_on_start;
 }						t_config;
 
 typedef union			u_col
