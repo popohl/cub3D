@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "cub3d.h"
+#include <mlx.h>
 #include <math.h>
 
 #define ARR_LEFT 65361
@@ -40,6 +41,7 @@ int		move(int keycode, t_config *config)
 	if (keycode == 116)
 		if (create_img(config->res.x, config->res.y, config->img.data))
 			close_program(config);
+	mlx_loop_hook(config->mlx_ptr, &display, config);
 	return (1);
 }
 
@@ -53,6 +55,7 @@ int		stop_move(int keycode, t_config *config)
 		config->rot = 0;
 	if (keycode == ESC)
 		close_program(config);
+	mlx_loop_hook(config->mlx_ptr, (void*)0, config);
 	return (1);
 }
 
