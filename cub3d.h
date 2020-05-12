@@ -86,6 +86,7 @@ typedef union			u_col
 	}					c;
 }						t_col;
 
+int						display(t_config *cfg);
 int						cub3d(t_config *config);
 void					ray(t_config *config, double angle);
 int						darken(int	color, double distance);

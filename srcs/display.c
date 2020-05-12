@@ -74,7 +74,6 @@ int		display(t_config *cfg)
 		draw_column(cfg, cfg->list, i);
 		i++;
 	}
-	usleep(10000);
 	if (cfg->scrsht_on_start)
 		create_img(cfg->res.x, cfg->res.y, cfg->img.data);
 	else
@@ -123,10 +122,11 @@ int		cub3d(t_config *conf)
 	if (!(conf->win_ptr = mlx_new_window(conf->mlx_ptr,
 			conf->res.x, conf->res.y, "Not DOOM")))
 		return (-1);
+	mlx_do_key_autorepeatoff(conf->mlx_ptr);
 	mlx_hook(conf->win_ptr, 2, 1 << 0, &move, conf);
 	mlx_hook(conf->win_ptr, 3, 1 << 1, &stop_move, conf);
 	mlx_hook(conf->win_ptr, 17, 1 << 17, &close_program, conf);
-	mlx_loop_hook(conf->mlx_ptr, &display, conf);
+	display(conf);
 	mlx_loop(conf->mlx_ptr);
 	return (1);
 }
