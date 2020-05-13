@@ -111,9 +111,6 @@ int		cub3d(t_config *conf)
 	if (!conf->img.ptr)
 		return (-1);
 	conf->angles = ray_angles_calculator(M_PI_2, conf->res.x);
-	conf->mvt_forward = 0;
-	conf->mvt_side = 0;
-	conf->rot = 0;
 	conf->img.data = (int *)mlx_get_data_addr(conf->img.ptr, &u,
 			&conf->img.sl, &u);
 	conf->img.sl /= 4;
@@ -123,6 +120,7 @@ int		cub3d(t_config *conf)
 			conf->res.x, conf->res.y, "Not DOOM")))
 		return (-1);
 	mlx_do_key_autorepeatoff(conf->mlx_ptr);
+	mlx_expose_hook(conf->win_ptr, &display, conf);
 	mlx_hook(conf->win_ptr, 2, 1 << 0, &move, conf);
 	mlx_hook(conf->win_ptr, 3, 1 << 1, &stop_move, conf);
 	mlx_hook(conf->win_ptr, 17, 1 << 17, &close_program, conf);

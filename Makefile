@@ -23,6 +23,7 @@ all: 			$(NAME)
 	@$(foreach L, $(LIBS), $(MAKE) -C $L -j;)
 
 $(NAME):		$(OBJS) $(foreach L,$(LIBS),$L/$L.a)
+	@mkdir -p "imgs/screenshots"
 	$(CC) $(CFLAGS) $^ -o $@ $(LDFLAGS)
 
 -include $(DEP)

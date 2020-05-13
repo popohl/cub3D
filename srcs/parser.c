@@ -49,6 +49,7 @@ t_config	*initialize_config(void)
 
 	if ((config = malloc(sizeof(*config))))
 	{
+		ft_bzero(config, sizeof(config));
 		i = 0;
 		while (i < 5)
 		{
@@ -76,12 +77,12 @@ int			analyse_line(char *line, t_config *config, int fd)
 	while (is_whitespace(line[i]))
 		i++;
 	if (line[i] == 'R' && read_res(config, line + i))
-		error(2, &config, line + i, fd);
+		error(2, &config, line, fd);
 	else if ((line[i] == 'N' || line[i] == 'S' || line[i] == 'E' ||
 			line[i] == 'W') && read_tex(config, line + i))
-		error(3, &config, line + i, fd);
+		error(3, &config, line, fd);
 	else if ((line[i] == 'F' || line[i] == 'C') && read_col(config, line + i))
-		error(4, &config, line + i, fd);
+		error(4, &config, line, fd);
 	else if (line[i] >= '0' && line[i] <= '9' && read_map(config, line))
 		error(5, &config, line, fd);
 	return (0);

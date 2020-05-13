@@ -22,7 +22,7 @@
 #define RIGHT 100
 #define ESC 65307
 
-#define SPEED 0.05
+#define SPEED 0.051
 
 int		move(int keycode, t_config *config)
 {
@@ -55,7 +55,8 @@ int		stop_move(int keycode, t_config *config)
 		config->rot = 0;
 	if (keycode == ESC)
 		close_program(config);
-	mlx_loop_hook(config->mlx_ptr, (void*)0, config);
+	if (!(config->mvt_side || config->mvt_forward || config->rot))
+		mlx_loop_hook(config->mlx_ptr, (void*)0, 0);
 	return (1);
 }
 

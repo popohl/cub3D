@@ -68,7 +68,7 @@ int		read_col(t_config *config, char *line)
 	while (counter >= 0)
 	{
 		temp = ft_atoi_increment(line, &i);
-		if (temp < 0 || (temp == 0 && line[i - 1] != '0'))
+		if (temp > 255 || temp < 0 || (temp == 0 && line[i - 1] != '0'))
 			return (-1);
 		color = color | (temp << (counter * 8));
 		while (line[i] && is_whitespace(line[i]) && line[i] != ',')
@@ -100,13 +100,13 @@ int		check_code(char *line)
 void	assign_texture(t_config *config, t_texture tex, char *line)
 {
 	if (*line == 'N' && line[1] == 'O')
-		config->wall[0] = tex;
+		config->wall[3] = tex;
 	else if (*line == 'S' && line[1] == 'O')
 		config->wall[1] = tex;
 	else if (*line == 'E' && line[1] == 'A')
-		config->wall[2] = tex;
+		config->wall[0] = tex;
 	else if (*line == 'W' && line[1] == 'E')
-		config->wall[3] = tex;
+		config->wall[2] = tex;
 	else
 		config->wall[4] = tex;
 }
